@@ -555,11 +555,13 @@ class Simulation():
             expected_energy_gain_max += 60
 
         if self.player.omen:
-            expected_energy_gain_min += mindur / self.swing_timer * (
-                3.5 / 60. * (1 - self.player.miss_chance) * 42
+        # add estimate of energy gained during mindur and maxdur from natutal omen procs and FFF (minus estimate of overlap). Assumes 9 FFF cpm
+        # to add: estimate of omen procs from t82pc
+            expected_energy_gain_min += ( mindur / self.swing_timer * (
+                3.5 / 60. * (1 - self.player.miss_chance) * (1 - 9 / 60) + 9 / 60 ) * 42
             )
-            expected_energy_gain_max += maxdur / self.swing_timer * (
-                3.5 / 60. * (1 - self.player.miss_chance) * 42
+            expected_energy_gain_max += ( maxdur / self.swing_timer * (
+                3.5 / 60. * (1 - self.player.miss_chance) * (1 - 9 / 60) + 9 / 60 ) * 42
             )
 
         expected_energy_gain_min += mindur/self.revitalize_frequency*0.15*8
